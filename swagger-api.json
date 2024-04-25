@@ -1,0 +1,67 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Express Grafana Prometheus API",
+    "description": "Swagger UI for API"
+  },
+  "host": "",
+  "paths": {
+    "/metrics": {
+      "get": {
+        "tags": [
+          "Index"
+        ],
+        "description": "Endpoint to trace all metric",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/counter": {
+      "get": {
+        "tags": [
+          "Index"
+        ],
+        "description": "Endpoint to add counter to metric",
+        "parameters": [
+          {
+            "name": "metricName",
+            "in": "query",
+            "description": "Metrci Name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "metricHelp",
+            "in": "query",
+            "description": "Metric Help Information",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "increase",
+            "in": "query",
+            "description": "Increase counter",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "security": []
+}

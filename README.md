@@ -17,10 +17,12 @@ Connect Express server with Grafana Cloud & Prometheus
 ![grafana-prometheus-setup.png](./images/grafana-prometheus-setup.png)  
 - Connect Data Store, Connections > Data Stores > Settings
 ![grafana-prometheus-setting.png](./images/grafana-prometheus-setting.png)
-- Copy `Prometheus server URL`, `User` and `Password` to `prometheus.yml`
+- Copy `Prometheus server URL`, `User` and `Password` to `.env`
 ![grafana-prometheus-connection.png](./images/grafana-prometheus-connection.png)
 - Setup `Access Policy token`
 ![grafana-prometheus-access-policy-token.png](./images/grafana-prometheus-access-policy-token.png)
+- Copy `Loki server URL`, `User` and `Password` to `.env`
+![grafana-loki-connection.png](./images/grafana-loki-connection.png)
 
 ## Local Run
 

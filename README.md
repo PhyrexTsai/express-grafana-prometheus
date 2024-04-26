@@ -7,6 +7,7 @@ Connect Express server with Grafana Cloud & Prometheus
 - Express
 - Grafana
 - Prometheus
+- Loki
 
 ## Setup
 - Download [Prometheus](https://prometheus.io/download/)
@@ -26,9 +27,15 @@ Connect Express server with Grafana Cloud & Prometheus
 1. Setup `.env` Configuration
 ```s
 # .env should include these configuration
-GRAFANA_CLOUD_USERNAME=
-GRAFANA_CLOUD_PASSWORD=
-GRAFANA_CLOUD_URL=
+APP_NAME=
+
+GRAFANA_CLOUD_PROMETHEUS_USERNAME=
+GRAFANA_CLOUD_PROMETHEUS_PASSWORD=
+GRAFANA_CLOUD_PROMETHEUS_URL=
+
+GRAFANA_CLOUD_LOKI_URL=
+GRAFANA_CLOUD_LOKI_USER=
+GRAFANA_CLOUD_LOKI_PASSWORD=
 ```
 
 2. Run `npm run yaml`, to setup the configuration and create `prometheus.yaml`

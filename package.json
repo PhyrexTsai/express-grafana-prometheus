@@ -17,6 +17,8 @@
     "prom-client": "^15.1.2",
     "pug": "^3.0.2",
     "swagger-autogen": "^2.23.7",
-    "swagger-ui-express": "^5.0.0"
+    "swagger-ui-express": "^5.0.0",
+    "winston": "^3.13.0",
+    "winston-loki": "^6.1.2"
   }
 }

@@ -2,3 +2,9 @@
 
 ### Counter
 GET {{endpoint}}/counter?increase=10
+
+### Log (Success)
+GET {{endpoint}}/log?message={{$timestamp}}
+
+### Log (Failed)
+GET {{endpoint}}/log

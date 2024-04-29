@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { counter } = require('../utils/prometheus');
+const { logger } = require('../utils/logs');
 
 /**
  * Index Page
@@ -8,6 +9,44 @@ const { counter } = require('../utils/prometheus');
 router.get('/', function(req, res, next) {
   // #swagger.ignore = true
   res.render('index', { title: 'Express' });
+});
+
+router.get('/log', function(req, res, next) {
+
+  /*
+    #swagger.tags = ['Index']
+    #swagger.description = 'Endpoint to send log message' 
+    #swagger.auto = false
+    #swagger.path = '/log'
+    #swagger.method = 'get'
+    #swagger.produces = ['application/json']
+    #swagger.consumes = ['application/json']
+    #swagger.parameters['message'] = {
+      in: 'query',
+      type: 'string',
+      description: 'Message',
+      required: false
+    }
+  */
+  
+  try {
+    if (!req.query.message) {
+      logger.error('Missing Message');
+      return res.json({
+        success: false
+      });
+    }
+    logger.info(req.query.message);
+
+    res.json({
+      success: true
+    });
+  } catch (error) {
+    logger.error(error);
+    res.status(500).json({
+      error: error.message
+    })
+  }
 });
 
 /**
@@ -53,7 +92,7 @@ router.get('/counter', function(req, res, next) {
       success: result
     });
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     res.status(500).json({
       error: error.message
     })

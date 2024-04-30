@@ -2,10 +2,11 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
 const {register, collectDefaultMetrics} = require('prom-client');
 const swaggerUi = require('swagger-ui-express');
 const swaggerApiDocument = require('./swagger-api.json');
+const { logger } = require('./utils/logs');
+const { formatRequestAndResponse } = require('./utils/format');
 
 const indexRouter = require('./routes/index');
 
@@ -18,7 +19,6 @@ collectDefaultMetrics({ timeout: 5000 });
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -47,7 +47,17 @@ app.get('/metrics', async (req, res) => {
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+
+  if (res.renderPage !== undefined) {
+    logger.info(formatRequestAndResponse(req, res));
+    return res.render(res.renderPage, res.payload);
+  } else if (res.payload !== undefined) {
+    logger.info(formatRequestAndResponse(req, res));
+    return res.json(res.payload);
+  } else {
+    next(createError(404));
+  }
+  
 });
 
 // error handler
@@ -56,6 +66,7 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
+  logger.info(formatRequestAndResponse(req, res));
   // render the error page
   res.status(err.status || 500);
   res.render('error');

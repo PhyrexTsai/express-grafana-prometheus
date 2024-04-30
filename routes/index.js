@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { counter } = require('../utils/prometheus');
 const { logger } = require('../utils/logs');
+const createError = require('http-errors');
 
 /**
  * Index Page
@@ -30,23 +31,16 @@ router.get('/log', function(req, res, next) {
   */
   
   try {
+    res.payload = { success: true };
     if (!req.query.message) {
       logger.error('Missing Message');
-      return res.json({
-        success: false
-      });
+      res.payload = { success: false };
     }
-    logger.info(req.query.message);
-
-    res.json({
-      success: true
-    });
   } catch (error) {
-    logger.error(error);
-    res.status(500).json({
-      error: error.message
-    })
+    logger.error(`[API] ROUTER: ${req.method} ${req.originalUrl}, ERROR:`, error);
+    return next(createError(error.status, error.message));
   }
+  next();
 });
 
 /**
@@ -88,15 +82,14 @@ router.get('/counter', function(req, res, next) {
     const increase = parseInt(req.query.increase);
     const result = counter(metricName, metricHelp, increase);
 
-    res.json({
+    res.payload = {
       success: result
-    });
+    };
   } catch (error) {
-    logger.error(error);
-    res.status(500).json({
-      error: error.message
-    })
+    logger.error(`[API] ROUTER: ${req.method} ${req.originalUrl}, ERROR:`, error);
+    return next(createError(error.status, error.message));
   }
+  next();
 });
 
 module.exports = router;

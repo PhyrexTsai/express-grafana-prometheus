@@ -20,6 +20,30 @@
         }
       }
     },
+    "/log": {
+      "get": {
+        "tags": [
+          "Index"
+        ],
+        "description": "Endpoint to send log message",
+        "parameters": [
+          {
+            "name": "message",
+            "in": "query",
+            "description": "Message",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/counter": {
       "get": {
         "tags": [
